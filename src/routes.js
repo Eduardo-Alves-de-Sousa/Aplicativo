@@ -8,7 +8,19 @@ import AuthMiddlware from './app/Middlewares/auth'
 
 import User from "./app/models/User";
 
+import SessionControler from "./app/controllers/SessionControler";
+
+import multer from 'multer';
+
+import FileController from './app/controllers/FileControler';
+
+import multerConfig from './config/multer'
+
 const routes = new Router();
+
+const upload = multer(multerConfig);
+
+routes.post('/file',upload.single('file') , FileController.store)
 
 routes.post("/sessions", SessionControler.store);
 
@@ -21,5 +33,7 @@ routes.put('/user', UserController.update)
 routes.get("/", (req, res) => {
   return res.json({ mensagem: "helo world" });
 });
+
+routes.post("/sessions", SessionControler.store)
 
 export default routes;
